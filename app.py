@@ -1,7 +1,10 @@
-from flask import Flask, request, jsonify
-import util
+from flask import Flask, request, jsonify,render_template,send_from_directory
+from werkzeug.utils import secure_filename
 
-app = Flask(__name__)
+import util
+app = Flask(__name__,
+            static_folder='static',
+            template_folder='templates')
 
 
 @app.route('/', methods=['GET', 'POST'])
@@ -11,7 +14,18 @@ def hello():
 
     response.headers.add('Access-Control-Allow-Origin', '*')
 
-    return response
+    return  render_template('index.html')
+
+app.config['static'] = "static"
+
+# Define a route to serve static files (e.g., CSS and JS) from the specified directory
+@app.route('/static/<path:filename>')
+def get_assets(filename):
+    # Ensure the filename is secure to prevent potential security issues
+    filename = secure_filename(filename)
+    # Use send_from_directory to send the static file to the client
+    # as_attachment=False means the file will be displayed rather than downloaded
+    return send_from_directory(app.config['static'], filename, as_attachment=False)
 
 
 @app.route('/get_celeb_names')
@@ -36,4 +50,5 @@ def classify_image():
 if __name__ == "__main__":
     print("Starting Python Flask Server For Sports Celebrity Image Classification")
     util.load_artifacts()
-    app.run(port=5000)
+  
+    app.run(debug=True)

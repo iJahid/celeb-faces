@@ -18,7 +18,7 @@ function init() {
   dz.on("complete", function (file) {
     let imageData = file.dataURL;
 
-    var url = "http://127.0.0.1:5000/classify_image";
+    var url = "/classify_image";
 
     $.post(
       url,
@@ -52,7 +52,7 @@ function init() {
 
           $("#error").hide();
           htm +=
-            "<div ><img src='faces/" +
+            "<div ><img src='static/faces/" +
             data[i].celeb +
             ".png' style='border-radius:80px;width:80px;padding:5px'><b>" +
             data[i].celeb +
@@ -98,7 +98,7 @@ $(document).ready(function () {
   init();
 
   console.log("document loaded");
-   var url = "http://127.0.0.1:5000/get_celeb_names"; // Use this if you are NOT using nginx which is first 7 tutorials
+   var url = "/get_celeb_names"; // Use this if you are NOT using nginx which is first 7 tutorials
   //var url = "/api/get_celeb_names"; // Use this if  you are using nginx. i.e tutorial 8 and onwards
   $.get(url, function (data, status) {
     console.log("got response for get_celeb_names request");
@@ -115,7 +115,7 @@ $(document).ready(function () {
         html +=
           "<div class='col-2 celeb' id=c" +
           i +
-          "><img src='faces/" +
+          "><img src='static/faces/" +
           celebs[i] +
           ".png' class='celeb_img'" +
           "/>" +
